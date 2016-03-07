@@ -10,4 +10,4 @@ def not_found(request):  # pragma: no cover
     suggested_page = suggest_page_from_misspelled_slug(slug, root_page)
 
     data = {'suggested_page': suggested_page}
-    return render(request, '404.html', data)
+    return render(request, '404.html', data, status=404)
