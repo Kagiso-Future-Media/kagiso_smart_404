@@ -1,5 +1,6 @@
-from wagtail.wagtailcore.models import Page
 import re
+
+from wagtail.wagtailcore.models import Page
 
 
 def get_instant_redirect(slug, root_page):

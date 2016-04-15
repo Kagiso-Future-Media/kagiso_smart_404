@@ -2,7 +2,7 @@ from django.test import TestCase
 
 from wagtail.wagtailcore.models import Page
 
-from ..utils import suggest_page_from_misspelled_slug, get_instant_redirect
+from ..utils import get_instant_redirect, suggest_page_from_misspelled_slug
 
 
 class GetInstantRedirectTest(TestCase):
@@ -78,28 +78,31 @@ class GetInstantRedirectTest(TestCase):
 
     def test_slug_in_wrong_root_page(self):
         home_page = Page.objects.get(slug='home')
-        home_page_one = Page(
-            title='Home Page One',
-            slug='home-page-one'
+        article_index_one = Page(
+            title='First Index',
+            slug='first-index'
         )
-        home_page_two = Page(
-            title='Home Page Two',
-            slug='home-page-two'
+        article_index_two = Page(
+            title='Second Index',
+            slug='first-index'
         )
+        home_page.add_child(instance=article_index_one)
+        home_page.add_child(instance=article_index_two)
+
         article_one = Page(
-            title='Home Page One Article One',
-            slug='home-page-one-article-one'
+            title='Article One',
+            slug='article-one'
+        )
+        article_two = Page(
+            title='Article Two',
+            slug='article-two'
         )
 
-        article_two = Page(
-            title='Home Page One Article Two',
-            slug='home-page-two-article-two'
-        )
-        home_page_one.add_child(instance=article_one)
-        home_page_two.add_child(instance=article_two)
+        article_index_one.add_child(instance=article_one)
+        article_index_two.add_child(instance=article_two)
 
         result = get_instant_redirect(
-            '/post/home-page-Two-article-two/', home_page)
+            '/shows/article-one/', article_index_two)
 
         assert result is None
 
@@ -122,7 +125,7 @@ class SuggestPageFromMisspelledSlugTest(TestCase):
         result = suggest_page_from_misspelled_slug(
             '/workzon-bridget-masing/', home_page)
 
-        assert result == article
+        assert article in result
 
     def test_multiple_matches_returns_best_matching_page(self):
         home_page = Page.objects.get(slug='home')
@@ -140,4 +143,4 @@ class SuggestPageFromMisspelledSlugTest(TestCase):
         result = suggest_page_from_misspelled_slug(
             '/workzon-bridget-masing/', home_page)
 
-        assert result == better_matching_article
+        assert better_matching_article in result

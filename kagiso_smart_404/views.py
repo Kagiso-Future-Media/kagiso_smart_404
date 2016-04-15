@@ -1,13 +1,12 @@
-from django.shortcuts import render
 from django.http import HttpResponsePermanentRedirect
+from django.shortcuts import render
 
-from .utils import suggest_page_from_misspelled_slug, get_instant_redirect
+from .utils import get_instant_redirect, suggest_page_from_misspelled_slug
 
 
 def not_found(request):  # pragma: no cover
     slug = request.path
     root_page = request.site.root_page.specific
-    print(request)
 
     page_redirect = get_instant_redirect(slug, root_page)
     if page_redirect:
