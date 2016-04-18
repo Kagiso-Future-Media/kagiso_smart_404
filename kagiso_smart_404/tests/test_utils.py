@@ -2,7 +2,7 @@ from django.test import TestCase
 
 from wagtail.wagtailcore.models import Page
 
-from ..utils import get_instant_redirect, suggest_page_from_misspelled_slug
+from ..utils import determine_if_slug_matches_one_page_exactly, suggest_page_from_misspelled_slug
 
 
 class GetInstantRedirectTest(TestCase):
@@ -15,7 +15,7 @@ class GetInstantRedirectTest(TestCase):
         )
         home_page.add_child(instance=article)
 
-        result = get_instant_redirect(
+        result = determine_if_slug_matches_one_page_exactly(
             '/shows/workzone-with-bridget-masinga/', home_page)
 
         assert result == article
@@ -28,7 +28,7 @@ class GetInstantRedirectTest(TestCase):
         )
         home_page.add_child(instance=article)
 
-        result = get_instant_redirect(
+        result = determine_if_slug_matches_one_page_exactly(
             '/test/post/page/shows/workzone-with-bridget-masinga/', home_page)
 
         assert result == article
@@ -58,7 +58,7 @@ class GetInstantRedirectTest(TestCase):
         article_index_one.add_child(instance=article_one)
         article_index_two.add_child(instance=article_two)
 
-        result = get_instant_redirect(
+        result = determine_if_slug_matches_one_page_exactly(
             '/shows/workzone-with-bridget-masinga/', home_page)
 
         assert result is None
@@ -71,12 +71,12 @@ class GetInstantRedirectTest(TestCase):
         )
         home_page.add_child(instance=article)
 
-        result = get_instant_redirect(
+        result = determine_if_slug_matches_one_page_exactly(
             '/post/no-result/', home_page)
 
         assert result is None
 
-    def test_slug_in_wrong_root_page(self):
+    def test_slug_scopes_to_site(self):
         home_page = Page.objects.get(slug='home')
         article_index_one = Page(
             title='First Index',
@@ -101,7 +101,7 @@ class GetInstantRedirectTest(TestCase):
         article_index_one.add_child(instance=article_one)
         article_index_two.add_child(instance=article_two)
 
-        result = get_instant_redirect(
+        result = determine_if_slug_matches_one_page_exactly(
             '/shows/article-one/', article_index_two)
 
         assert result is None

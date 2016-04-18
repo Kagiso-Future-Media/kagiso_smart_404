@@ -3,9 +3,17 @@ import re
 from wagtail.wagtailcore.models import Page
 
 
-def get_instant_redirect(slug, root_page):
-    cleaned_slug = re.match('/.*/(.*)/', slug).group(1)
+def determine_if_slug_matches_one_page_exactly(slug, root_page):
+    # Regex Voodoo right here:
+    # input =/my/url/, slug=url
 
+    result = re.match('/.*/(.*)/', slug)
+    if result is None:
+        # input =/url/, slug=url
+        # For urls passed in with out path depth
+        result = re.match('/(.*)/', slug)
+
+    cleaned_slug = result.group(1)
     try:
         return Page.objects.descendant_of(root_page).get(
             slug=cleaned_slug)
