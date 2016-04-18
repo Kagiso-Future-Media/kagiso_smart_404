@@ -5,7 +5,7 @@ from wagtail.wagtailcore.models import Page
 from ..utils import determine_if_slug_matches_one_page_exactly, suggest_page_from_misspelled_slug
 
 
-class GetInstantRedirectTest(TestCase):
+class DetermineIfSlugMatchesOnePageExactlyTest(TestCase):
 
     def test_matching_slug_returns_single_page(self):
         home_page = Page.objects.get(slug='home')
