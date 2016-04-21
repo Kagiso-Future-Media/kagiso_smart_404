@@ -1,7 +1,10 @@
 from django.http import HttpResponsePermanentRedirect
 from django.shortcuts import render
 
-from .utils import determine_if_slug_matches_one_page_exactly, suggest_page_from_misspelled_slug
+from .utils import (
+    determine_if_slug_matches_one_page_exactly,
+    suggest_page_from_misspelled_slug
+)
 
 
 def not_found(request):  # pragma: no cover

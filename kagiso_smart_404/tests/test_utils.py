@@ -1,8 +1,10 @@
 from django.test import TestCase
-
 from wagtail.wagtailcore.models import Page
 
-from ..utils import determine_if_slug_matches_one_page_exactly, suggest_page_from_misspelled_slug
+from ..utils import (
+    determine_if_slug_matches_one_page_exactly,
+    suggest_page_from_misspelled_slug
+)
 
 
 class DetermineIfSlugMatchesOnePageExactlyTest(TestCase):
