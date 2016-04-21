@@ -1,4 +1,5 @@
 [ ![Codeship Status for Kagiso-Future-Media/kagiso_smart_404](https://codeship.com/projects/40725960-e9d1-0133-fac7-4afac8d396b8/status?branch=master)](https://codeship.com/projects/147691)
+[![codecov.io](https://codecov.io/github/Kagiso-Future-Media/kagiso_smart_404/coverage.svg?branch=master)](https://codecov.io/github/Kagiso-Future-Media/kagiso_smart_404?branch=master)
 
 # kagiso_smart_404
 Recommend similar pages if a given page is not found.
