@@ -34,4 +34,4 @@ def suggest_page_from_misspelled_slug(slug, root_page):
     if list(page) and root_page in page[0].get_ancestors().specific():
         suggested_pages = list(page)
 
-    return suggested_pages
+    return suggested_pages[:3] if suggested_pages else None
