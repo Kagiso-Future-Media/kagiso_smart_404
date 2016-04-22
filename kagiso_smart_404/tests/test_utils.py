@@ -4,9 +4,22 @@ from django.test import TestCase
 from wagtail.wagtailcore.models import Page
 
 from ..utils import (
+    page_slug,
     slug_matches_one_page_exactly,
     suggest_page_from_misspelled_slug
 )
+
+
+def test_page_slug_gets_page_specific_slug_from_full_path():
+    assert page_slug('/news/') == 'news'
+    assert page_slug('/news') == 'news'
+    assert page_slug('news') == 'news'
+
+    assert page_slug('/news/my-article/') == 'my-article'
+    assert page_slug('/news/my-article') == 'my-article'
+    assert page_slug('news/my-article') == 'my-article'
+
+    assert page_slug('/favicon.ico') == 'favicon.ico'
 
 
 class SlugMatchesOnePageExactlyTest(TestCase):
