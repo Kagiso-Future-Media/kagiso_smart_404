@@ -15,8 +15,12 @@ def determine_if_slug_matches_one_page_exactly(slug, root_page):
 
     cleaned_slug = result.group(1)
     try:
-        return Page.objects.descendant_of(root_page).get(
-            slug=cleaned_slug)
+        result = Page.objects.descendant_of(root_page).get(
+            slug=cleaned_slug,
+            live=True,
+            first_published_at__isnull=False
+        )
+        return result
     except (Page.MultipleObjectsReturned, Page.DoesNotExist):
         return None
 
@@ -24,7 +28,9 @@ def determine_if_slug_matches_one_page_exactly(slug, root_page):
 def suggest_page_from_misspelled_slug(slug, root_page):
     sql = '''SELECT p.*, similarity(slug, %(slug)s) AS similarity
              FROM wagtailcore_page p
-             WHERE slug %% %(slug)s
+             WHERE live = true
+                AND first_published_at IS NOT NULL
+                AND slug %% %(slug)s
              ORDER BY similarity DESC
              '''
     page = Page.objects.raw(sql, {'slug': slug})

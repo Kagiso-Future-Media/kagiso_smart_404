@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.test import TestCase
 from wagtail.wagtailcore.models import Page
 
@@ -13,7 +15,9 @@ class DetermineIfSlugMatchesOnePageExactlyTest(TestCase):
         home_page = Page.objects.get(slug='home')
         article = Page(
             title='Workzone with Bridget Masinga',
-            slug='workzone-with-bridget-masinga'
+            slug='workzone-with-bridget-masinga',
+            live=True,
+            first_published_at=datetime.now()
         )
         home_page.add_child(instance=article)
 
@@ -26,7 +30,9 @@ class DetermineIfSlugMatchesOnePageExactlyTest(TestCase):
         home_page = Page.objects.get(slug='home')
         article = Page(
             title='Workzone with Bridget Masinga',
-            slug='workzone-with-bridget-masinga'
+            slug='workzone-with-bridget-masinga',
+            live=True,
+            first_published_at=datetime.now()
         )
         home_page.add_child(instance=article)
 
@@ -35,7 +41,7 @@ class DetermineIfSlugMatchesOnePageExactlyTest(TestCase):
 
         assert result == article
 
-    def test_multiple_articles_with_same_slug(self):
+    def test_multiple_articles_with_same_slug_returns_none(self):
         home_page = Page.objects.get(slug='home')
         article_index_one = Page(
             title='First Index',
@@ -120,7 +126,9 @@ class SuggestPageFromMisspelledSlugTest(TestCase):
         home_page = Page.objects.get(slug='home')
         article = Page(
             title='Workzone with Bridget Masinga',
-            slug='workzone-with-bridget-masinga'
+            slug='workzone-with-bridget-masinga',
+            live=True,
+            first_published_at=datetime.now()
         )
         home_page.add_child(instance=article)
 
@@ -133,11 +141,15 @@ class SuggestPageFromMisspelledSlugTest(TestCase):
         home_page = Page.objects.get(slug='home')
         better_matching_article = Page(
             title='Workzone with Bridget Masinga',
-            slug='workzone-with-bridget-masinga'
+            slug='workzone-with-bridget-masinga',
+            live=True,
+            first_published_at=datetime.now()
         )
         poorer_matching_article = Page(
             title='Bridget Masinga',
-            slug='bridget-masinga'
+            slug='bridget-masinga',
+            live=True,
+            first_published_at=datetime.now()
         )
         home_page.add_child(instance=better_matching_article)
         home_page.add_child(instance=poorer_matching_article)
@@ -151,20 +163,28 @@ class SuggestPageFromMisspelledSlugTest(TestCase):
         home_page = Page.objects.get(slug='home')
         ok_match_1 = Page(
             title='Bridget Masinga',
-            slug='bridget-masinga'
+            slug='bridget-masinga',
+            live=True,
+            first_published_at=datetime.now()
         )
         ok_match_2 = Page(
             title='Bridget Masinga Again',
-            slug='bridget-masinga-again'
+            slug='bridget-masinga-again',
+            live=True,
+            first_published_at=datetime.now()
         )
         ok_match_3 = Page(
             title='More Bridget Masinga',
-            slug='more-bridget-masinga'
+            slug='more-bridget-masinga',
+            live=True,
+            first_published_at=datetime.now()
         )
         # If slicing is commented out this result is returned for a slug '/bridget'! # noqa
         poorer_match = Page(
             title='Bridge Building',
-            slug='bridge-building'
+            slug='bridge-building',
+            live=True,
+            first_published_at=datetime.now()
         )
         home_page.add_child(instance=ok_match_1)
         home_page.add_child(instance=ok_match_2)
