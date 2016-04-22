@@ -1,22 +1,24 @@
-import re
-
 from wagtail.wagtailcore.models import Page
 
 
-def determine_if_slug_matches_one_page_exactly(slug, root_page):
-    # Regex Voodoo right here:
-    # input =/my/url/, slug=url
+def page_slug(slug):
+    # Full slug might be /news/sports/some-sports-article/
+    # The page slug is therefore `some-sports-article`
+    slugs = slug.split('/')
 
-    result = re.match('/.*/(.*)/', slug)
-    if result is None:
-        # input =/url/, slug=url
-        # For urls passed in with out path depth
-        result = re.match('/(.*)/', slug)
+    # Remove all empty strings
+    # '/news/article' => ['', 'news', 'article', '']
+    slugs = list(filter(None, slugs))
 
-    cleaned_slug = result.group(1)
+    page_slug = slugs[-1]
+    return page_slug
+
+
+def slug_matches_one_page_exactly(slug, root_page):
+    page_page = page_slug(slug)
     try:
         result = Page.objects.descendant_of(root_page).get(
-            slug=cleaned_slug,
+            slug=page_page,
             live=True,
             first_published_at__isnull=False
         )

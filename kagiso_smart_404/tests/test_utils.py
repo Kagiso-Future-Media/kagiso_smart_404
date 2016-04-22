@@ -4,12 +4,12 @@ from django.test import TestCase
 from wagtail.wagtailcore.models import Page
 
 from ..utils import (
-    determine_if_slug_matches_one_page_exactly,
+    slug_matches_one_page_exactly,
     suggest_page_from_misspelled_slug
 )
 
 
-class DetermineIfSlugMatchesOnePageExactlyTest(TestCase):
+class SlugMatchesOnePageExactlyTest(TestCase):
 
     def test_matching_slug_returns_single_page(self):
         home_page = Page.objects.get(slug='home')
@@ -21,7 +21,7 @@ class DetermineIfSlugMatchesOnePageExactlyTest(TestCase):
         )
         home_page.add_child(instance=article)
 
-        result = determine_if_slug_matches_one_page_exactly(
+        result = slug_matches_one_page_exactly(
             '/shows/workzone-with-bridget-masinga/', home_page)
 
         assert result == article
@@ -36,7 +36,7 @@ class DetermineIfSlugMatchesOnePageExactlyTest(TestCase):
         )
         home_page.add_child(instance=article)
 
-        result = determine_if_slug_matches_one_page_exactly(
+        result = slug_matches_one_page_exactly(
             '/test/post/page/shows/workzone-with-bridget-masinga/', home_page)
 
         assert result == article
@@ -66,7 +66,7 @@ class DetermineIfSlugMatchesOnePageExactlyTest(TestCase):
         article_index_one.add_child(instance=article_one)
         article_index_two.add_child(instance=article_two)
 
-        result = determine_if_slug_matches_one_page_exactly(
+        result = slug_matches_one_page_exactly(
             '/shows/workzone-with-bridget-masinga/', home_page)
 
         assert result is None
@@ -79,7 +79,7 @@ class DetermineIfSlugMatchesOnePageExactlyTest(TestCase):
         )
         home_page.add_child(instance=article)
 
-        result = determine_if_slug_matches_one_page_exactly(
+        result = slug_matches_one_page_exactly(
             '/post/no-result/', home_page)
 
         assert result is None
@@ -109,7 +109,7 @@ class DetermineIfSlugMatchesOnePageExactlyTest(TestCase):
         article_index_one.add_child(instance=article_one)
         article_index_two.add_child(instance=article_two)
 
-        result = determine_if_slug_matches_one_page_exactly(
+        result = slug_matches_one_page_exactly(
             '/shows/article-one/', article_index_two)
 
         assert result is None
