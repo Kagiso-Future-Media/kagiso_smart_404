@@ -1,0 +1,9 @@
+[run]
+branch=true
+source=.
+omit=
+    kagiso_smart_404/migrations/*
+    kagiso_smart_404/tests/*
+    manage.py
+    setup.py
+    venv/*

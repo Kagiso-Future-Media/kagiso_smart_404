@@ -1,22 +1,28 @@
-import re
-
 from wagtail.wagtailcore.models import Page
 
 
-def determine_if_slug_matches_one_page_exactly(slug, root_page):
-    # Regex Voodoo right here:
-    # input =/my/url/, slug=url
+def page_slug(slug):
+    # Full slug might be /news/sports/some-sports-article/
+    # The page slug is therefore `some-sports-article`
+    slugs = slug.split('/')
 
-    result = re.match('/.*/(.*)/', slug)
-    if result is None:
-        # input =/url/, slug=url
-        # For urls passed in with out path depth
-        result = re.match('/(.*)/', slug)
+    # Remove all empty strings
+    # '/news/article' => ['', 'news', 'article', '']
+    slugs = list(filter(None, slugs))
 
-    cleaned_slug = result.group(1)
+    page_slug = slugs[-1]
+    return page_slug
+
+
+def slug_matches_one_page_exactly(slug, root_page):
+    slug = page_slug(slug)
     try:
-        return Page.objects.descendant_of(root_page).get(
-            slug=cleaned_slug)
+        result = Page.objects.descendant_of(root_page).get(
+            slug=slug,
+            live=True,
+            first_published_at__isnull=False
+        )
+        return result
     except (Page.MultipleObjectsReturned, Page.DoesNotExist):
         return None
 
@@ -24,7 +30,9 @@ def determine_if_slug_matches_one_page_exactly(slug, root_page):
 def suggest_page_from_misspelled_slug(slug, root_page):
     sql = '''SELECT p.*, similarity(slug, %(slug)s) AS similarity
              FROM wagtailcore_page p
-             WHERE slug %% %(slug)s
+             WHERE live = true
+                AND first_published_at IS NOT NULL
+                AND slug %% %(slug)s
              ORDER BY similarity DESC
              '''
     page = Page.objects.raw(sql, {'slug': slug})
@@ -34,4 +42,4 @@ def suggest_page_from_misspelled_slug(slug, root_page):
     if list(page) and root_page in page[0].get_ancestors().specific():
         suggested_pages = list(page)
 
-    return suggested_pages
+    return suggested_pages[:3] if suggested_pages else None
