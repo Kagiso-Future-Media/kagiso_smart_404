@@ -15,10 +15,10 @@ def page_slug(slug):
 
 
 def slug_matches_one_page_exactly(slug, root_page):
-    page_page = page_slug(slug)
+    slug = page_slug(slug)
     try:
         result = Page.objects.descendant_of(root_page).get(
-            slug=page_page,
+            slug=slug,
             live=True,
             first_published_at__isnull=False
         )
