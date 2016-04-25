@@ -62,7 +62,7 @@ class SlugMatchesOnePageExactlyTest(TestCase):
         )
         article_index_two = Page(
             title='Second Index',
-            slug='first-index'
+            slug='second-index'
         )
         home_page.add_child(instance=article_index_one)
         home_page.add_child(instance=article_index_two)
@@ -105,7 +105,7 @@ class SlugMatchesOnePageExactlyTest(TestCase):
         )
         article_index_two = Page(
             title='Second Index',
-            slug='first-index'
+            slug='second-index'
         )
         home_page.add_child(instance=article_index_one)
         home_page.add_child(instance=article_index_two)
