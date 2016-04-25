@@ -28,18 +28,22 @@ def slug_matches_one_page_exactly(slug, root_page):
 
 
 def suggest_page_from_misspelled_slug(slug, root_page):
+    root_path = root_page.path
+    root_path_len = len(root_path)
+
     sql = '''SELECT p.*, similarity(slug, %(slug)s) AS similarity
              FROM wagtailcore_page p
              WHERE live = true
                 AND first_published_at IS NOT NULL
+                AND substring(path FOR %(root_path_len)s) = %(root_path)s
                 AND slug %% %(slug)s
              ORDER BY similarity DESC
              '''
-    page = Page.objects.raw(sql, {'slug': slug})
-    suggested_pages = None
-
-    # page is currently a RawQuerySet...
-    if list(page) and root_page in page[0].get_ancestors().specific():
-        suggested_pages = list(page)
+    data = {
+        'slug': slug,
+        'root_path': root_path,
+        'root_path_len': root_path_len
+    }
+    suggested_pages = Page.objects.raw(sql, data)
 
     return suggested_pages[:3] if suggested_pages else None
