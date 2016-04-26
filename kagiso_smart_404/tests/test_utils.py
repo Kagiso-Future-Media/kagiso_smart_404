@@ -130,10 +130,11 @@ class SlugMatchesOnePageExactlyTest(TestCase):
 
 class SuggestPageFromMisspelledSlugTest(TestCase):
 
-    def test_no_similar_slugs_returns_none(self):
+    def test_no_similar_slugs_returns_empty_array(self):
+        home_page = Page.objects.get(slug='home')
         result = suggest_page_from_misspelled_slug(
-            '/no-such-page/', None)
-        assert result is None
+            '/no-such-page/', home_page)
+        assert result == []
 
     def test_matching_slug_returns_page(self):
         home_page = Page.objects.get(slug='home')
