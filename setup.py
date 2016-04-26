@@ -3,7 +3,7 @@ from setuptools import find_packages, setup
 
 setup(
     name='kagiso_smart_404',
-    version='1.0.3',
+    version='1.0.5',
     author='Kagiso Media',
     author_email='development@kagiso.io',
     description='Kagiso Smart 404',
