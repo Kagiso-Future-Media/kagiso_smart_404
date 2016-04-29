@@ -2,7 +2,6 @@ from django.http import HttpResponsePermanentRedirect
 from django.shortcuts import render
 
 from .utils import (
-    # slug_matches_one_page_exactly,
     suggest_page_from_misspelled_slug
 )
 
