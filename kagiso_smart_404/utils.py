@@ -21,4 +21,4 @@ def suggest_page_from_misspelled_slug(slug, root_page):
     suggested_pages = list(Page.objects.raw(sql, data))  # RawQuerySet...
     suggested_pages = [page.specific for page in suggested_pages]
 
-    return suggested_pages[:3] if suggested_pages else None
+    return suggested_pages[:3]

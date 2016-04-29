@@ -15,7 +15,7 @@ class SuggestPageFromMisspelledSlugTest(TestCase):
         result = suggest_page_from_misspelled_slug(
             '/no-such-page/', home_page)
 
-        assert result is None
+        assert result == []
 
     def test_matching_slug_returns_page(self):
         home_page = Page.objects.get(slug='home')

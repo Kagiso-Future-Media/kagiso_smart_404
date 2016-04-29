@@ -12,7 +12,7 @@ def not_found(request):  # pragma: no cover
 
     suggested_pages = suggest_page_from_misspelled_slug(slug, root_page)
 
-    if suggested_pages and len(suggested_pages) == 1:
+    if len(suggested_pages) == 1:
         intended_url = suggested_pages[0].url
         return HttpResponsePermanentRedirect(redirect_to=intended_url)
 
