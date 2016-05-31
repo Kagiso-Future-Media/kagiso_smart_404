@@ -10,12 +10,15 @@ django-taggit==0.18.0     # via wagtail
 django-treebeard==3.0     # via wagtail
 django==1.8.12
 djangorestframework==3.3.2  # via wagtail
+flake8-blind-except==0.1.0
 flake8-import-order==0.6.1
+flake8-print==2.0.2
+flake8-quotes==0.3.0
 flake8==2.5.2
 html5lib==0.9999999       # via wagtail
 mccabe==0.4.0             # via flake8
 pep8-naming==0.3.3
-pep8==1.7.0               # via flake8, flake8-import-order
+pep8==1.7.0               # via flake8, flake8-import-order, flake8-quotes
 Pillow==3.1.1             # via wagtail
 psycopg2==2.6.1
 py==1.4.31                # via pytest
@@ -27,3 +30,7 @@ six==1.10.0               # via html5lib
 Unidecode==0.4.19         # via wagtail
 wagtail==1.4.3
 Willow==0.3               # via wagtail
+
+# The following packages are commented out because they are
+# considered to be unsafe in a requirements file:
+# setuptools                # via flake8-blind-except
