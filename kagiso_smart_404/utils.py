@@ -15,6 +15,13 @@ def page_slug(slug):
     return page_slug
 
 
+# This function is useful if a content person has moved a page
+# around the tree, but hasn't changed the page slug
+# eg: /news/proteas-win-again/ => /sport/proteas-win-again/
+# This is quite a common scenario
+#
+# So we see if there is another page in the db the db that matches that exact
+# page slug, if so we assume that is the 'missing' page.
 def slug_matches_one_page_exactly(slug, root_page):
     slug = page_slug(slug)
     try:

@@ -13,6 +13,8 @@ def not_found(request):  # pragma: no cover
 
     suggested_pages = suggest_page_from_misspelled_slug(slug, root_page)
 
+    # Has a content person moved a page around the tree with the page slug
+    # remaining as per before, if so redirect to page with matching slug
     exact_match = slug_matches_one_page_exactly(slug, root_page)
     if exact_match:
         return HttpResponsePermanentRedirect(redirect_to=exact_match.url)
