@@ -5,7 +5,6 @@ def page_slug(slug):
     # Full slug might be /news/sports/somesportsarticle/
     # The page slug is therefore `somesportsarticle`
     slugs = slug.split('/')
-    print(slugs)
 
     # Remove all empty strings
     # '/news/article' => ['', 'news', 'article', '']
