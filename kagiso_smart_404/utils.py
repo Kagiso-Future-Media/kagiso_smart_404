@@ -15,7 +15,8 @@ def page_slug(slug):
 
 
 # This function is useful if a content person has moved a page
-# around the tree, but hasn't changed the page slug
+# around the tree, as the page url will change due to the parent node changing
+# e.g. from 'News' to 'Sport', but the slug hasn't changed
 # eg: /news/proteas-win-again/ => /sport/proteas-win-again/
 # This is quite a common scenario
 #
