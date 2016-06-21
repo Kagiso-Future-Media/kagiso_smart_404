@@ -55,4 +55,9 @@ def suggest_page_from_misspelled_slug(slug, root_page):
     suggested_pages = list(Page.objects.raw(sql, data))  # RawQuerySet...
     suggested_pages = [page.specific for page in suggested_pages]
 
+    # Record that page was recommended by Smart404 for metrics collection
+    for page in suggested_pages:
+        page.url = page.url + '?source=kagiso_smart_404'
+        page.full_url = page.full_url + '?source=kagiso_smart_404'
+
     return suggested_pages[:3]
