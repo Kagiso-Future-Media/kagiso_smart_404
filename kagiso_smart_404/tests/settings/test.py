@@ -44,6 +44,8 @@ MIDDLEWARE_CLASSES = (
 
     'wagtail.wagtailcore.middleware.SiteMiddleware',
     'wagtail.wagtailredirects.middleware.RedirectMiddleware',
+
+    'kagiso_smart_404.middleware.SmartRedirectMetricsMiddleware',
 )
 
 ROOT_URLCONF = 'kagiso_smart_404.tests.urls'

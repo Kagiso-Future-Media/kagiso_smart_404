@@ -1,5 +1,7 @@
 from wagtail.wagtailcore.models import Page
 
+from .constants import TRACKING_QUERY_STRING_KEY, TRACKING_QUERY_STRING_VALUE
+
 
 def page_slug(slug):
     # Full slug might be /news/sports/somesportsarticle/
@@ -57,7 +59,11 @@ def suggest_page_from_misspelled_slug(slug, root_page):
 
     # Record that page was recommended by Smart404 for metrics collection
     for page in suggested_pages:
-        full_url = page.full_url + '?source=kagiso_smart_404'
+        full_url = '{0}?{1}={2}'.format(
+            page.full_url,
+            TRACKING_QUERY_STRING_KEY,
+            TRACKING_QUERY_STRING_VALUE
+        )
         page.tracking_url = full_url
 
     return suggested_pages[:3]
