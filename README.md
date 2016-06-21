@@ -35,7 +35,7 @@ Add the following to `urls.py`:
       <h4 class="error-subtitle">frequency not found</h4>
       {% if suggested_page %}
       <p>Were you looking for
-        <a style="color: white; text-decoration: underline" href="{% pageurl suggested_page %}">
+        <a style="color: white; text-decoration: underline" href="{{ suggested_page.tracking_url }}">
           {{ suggested_page.title }}?
         </a>
       </p>
@@ -46,6 +46,13 @@ Add the following to `urls.py`:
   </section>
 
 {% endblock %}
+```
+
+## Metrics Tracking via Librato
+Add the following to your settings.py's MIDDLEWARE_CLASSES:
+
+```python
+'kagiso_smart_404.middleware.SmartRedirectMetricsMiddleware',
 ```
 
 ## Running the tests
