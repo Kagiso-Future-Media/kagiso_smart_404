@@ -57,7 +57,7 @@ def suggest_page_from_misspelled_slug(slug, root_page):
 
     # Record that page was recommended by Smart404 for metrics collection
     for page in suggested_pages:
-        page.url = page.url + '?source=kagiso_smart_404'
-        page.full_url = page.full_url + '?source=kagiso_smart_404'
+        full_url = page.full_url + '?source=kagiso_smart_404'
+        page.tracking_url = full_url
 
     return suggested_pages[:3]

@@ -46,6 +46,8 @@ MIDDLEWARE_CLASSES = (
     'wagtail.wagtailredirects.middleware.RedirectMiddleware',
 )
 
+ROOT_URLCONF = 'kagiso_smart_404.tests.urls'
+
 
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
