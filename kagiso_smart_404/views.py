@@ -3,7 +3,6 @@ import logging
 from django.http import HttpResponsePermanentRedirect
 from django.shortcuts import render
 
-from .constants import TRACKING_QUERY_STRING_KEY, TRACKING_QUERY_STRING_VALUE
 from .utils import (
     slug_matches_one_page_exactly,
     suggest_page_from_misspelled_slug
@@ -24,12 +23,7 @@ def not_found(request):  # pragma: no cover
     exact_match = slug_matches_one_page_exactly(slug, root_page)
     if exact_match:
         logger.info('count#smart_404.instant_redirect=1')
-        redirect_url = '{0}?{1}={2}'.format(
-            exact_match.url,
-            TRACKING_QUERY_STRING_KEY,
-            TRACKING_QUERY_STRING_VALUE
-        )
-        return HttpResponsePermanentRedirect(redirect_to=redirect_url)
+        return HttpResponsePermanentRedirect(redirect_to=exact_match.url)
 
     data = {'suggested_pages': suggested_pages}
     logger.info('count#smart_404.list_suggested_pages=1')
